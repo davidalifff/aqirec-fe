@@ -1,2 +1,29 @@
-<a routerLink="/login">Login</a>
-<a routerLink="/register">Register</a>
+<nav class="navbar navbar-expand-lg bg-light shadow p-0" id="page-topbar" style="z-index: 1000 !important;">
+    <div class="container-fluid px-4">
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav d-flex align-items-center mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a href="javascript: void(0);" [routerLink]="['/home']" class="nav-link d-flex align-items-center text-secondary" id="home" style="font-weight: 400; padding: 1.5rem 1.5rem;position:relative" (click)="onMenuClick($event, 'home')">
+                        <span class="font-size-14">Home</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="d-flex mobile-profile">
+                <div class="dropdown d-inline-block" ngbDropdown>
+                    <button type="button" class="btn header-item text-dark pr-0" id="page-header-user-dropdown" ngbDropdownToggle>
+                        <em class="fa fa-user"></em>
+                        <em class="mdi mdi-chevron-down d-none d-xl-inline-block"></em>
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
+                        <a class="dropdown-item text-danger" href="javascript: void(0);" (click)="logout()">
+                            <i class="bx bx-power-off font-size-15 align-middle mr-1 text-danger"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,16 @@
+.form-register {
+    display: block;
+    width: 100%;
+    height: auto;
+    padding: .47rem 24px;
+    outline: 0;
+    border: 1px solid #cacaca;
+    border-radius: 18px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 27px;
+}
+
+.shadow-custom {
+    box-shadow: 0 0 24px rgba(74,74,74,.36);
+}
