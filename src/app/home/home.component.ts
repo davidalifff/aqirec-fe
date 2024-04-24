@@ -4,6 +4,15 @@ import { DataDownloadService } from '../services/data-download.service';
 import { RecordedData } from '../home/models/recorded-data.model';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
+import * as L from 'leaflet';
+import 'leaflet-gesture-handling';
+
+// Custom options for MapOptions
+declare module 'leaflet' {
+  interface MapOptions {
+    gestureHandling?: boolean;
+  }
+}
 
 @Component({
   selector: 'app-home',
@@ -11,6 +20,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  map: any;
 
   constructor(
     private dataRecordService: DataRecordService,
@@ -19,9 +29,28 @@ export class HomeComponent implements OnInit {
     private router: Router
   ) { }
 
-
   ngOnInit(): void {
-    // Logika yang akan dieksekusi saat komponen diinisialisasi
+    this.initMap();
+  }
+
+  private initMap(): void {
+    this.map = L.map('map', {
+      center: [-1.8893, 117.9213], // Centered on Indonesia
+      zoom: 5, // Adjust zoom level as needed
+      zoomControl: false, // Disable zoom control
+      scrollWheelZoom: false, // Disable zooming via mouse scroll
+      gestureHandling: true, // Enable gesture handling
+      layers: [
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19
+        })
+      ]
+    });
+
+    // Add zoom control
+    L.control.zoom({
+      position: 'bottomright', // Adjust the position of the zoom control
+    }).addTo(this.map);
   }
 
   recordData(): void {

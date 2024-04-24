@@ -28,7 +28,8 @@
               "src/styles.css",
               "src/assets/scss/icons.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/leaflet/dist/leaflet.js"
+              "node_modules/leaflet/dist/leaflet.css",
+              "node_modules/leaflet-gesture-handling/dist/leaflet-gesture-handling.css"
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
