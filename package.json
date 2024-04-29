@@ -26,6 +26,7 @@
     "@types/leaflet": "^1.9.11",
     "bootstrap": "^4.4.1",
     "leaflet": "^1.9.4",
+    "leaflet-gesture-handling": "^1.2.2",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

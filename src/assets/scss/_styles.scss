@@ -1,0 +1,22 @@
+.leaflet-div-icon {
+    border: unset !important;
+}
+
+.map-pin {
+    position: absolute;
+    left: -8px;
+    top: -8px;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 500;
+    border-radius: 50%;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .1);
+}
+
+.map-pin-orange {
+    background-color: rgb(255, 155, 87, .75);
+    color: rgba(0, 0, 0, .6);
+}
