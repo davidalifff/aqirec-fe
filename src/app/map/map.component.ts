@@ -54,12 +54,6 @@ export class MapComponent implements OnInit {
       position: 'bottomright', // Adjust the position of the zoom control
     }).addTo(this.map);
 
-    // Define custom marker icon
-    const customIcon = L.divIcon({
-      iconSize: [0, 0],
-      html: '<div class="map-pin map-pin-orange"></div>'
-    });
-
     this.airService.getData().subscribe((res: any) => {
       this.listData = res.data;
       
@@ -68,6 +62,14 @@ export class MapComponent implements OnInit {
         const long = data.long;
         const idStation = data.id;
         const namaStation = data.nama;
+        const index = data.index_1;
+        const color = index <= 50 ? 'map-pin-green' : index <= 100 ? 'map-pin-yellow' : index <= 150 ? 'map-pin-orange' : index <= 200 ? 'map-pin-red' : index <= 250 ? 'map-pin-purple' : 'map-pin-maroon';
+
+        // Define custom marker icon
+        const customIcon = L.divIcon({
+          iconSize: [0, 0],
+          html: `<div class="map-pin ${color}">${index}</div>`
+        });
 
         const popupContent = `
         <div>
@@ -83,7 +85,9 @@ export class MapComponent implements OnInit {
           closeButton: false
         });
 
-        marker.addTo(this.map);
+        if (index != '-') {
+          marker.addTo(this.map);
+        }
       });
     });
     

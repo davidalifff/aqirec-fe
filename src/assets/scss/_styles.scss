@@ -16,7 +16,32 @@
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .1);
 }
 
-.map-pin-orange {
-    background-color: rgb(255, 155, 87, .75);
+.map-pin-green {
+    background-color: rgb(156, 216, 78, .75);
     color: rgba(0, 0, 0, .6);
+}
+
+.map-pin-yellow {
+    background-color: rgb(250, 207, 57, .75);
+    color: rgba(0, 0, 0, .6);
+}
+
+.map-pin-orange {
+    background-color: rgb(249, 144, 73, .75);
+    color: rgba(0, 0, 0, .6);
+}
+
+.map-pin-red {
+    background-color: rgb(246, 94, 95, .75);
+    color: rgba(255, 255, 255, .6);
+}
+
+.map-pin-purple {
+    background-color: rgb(160, 112, 182, .75);
+    color: rgba(255, 255, 255, .6);
+}
+
+.map-pin-maroon {
+    background-color: rgb(160, 106, 123, .75);
+    color: rgba(255, 255, 255, .6);
 }
