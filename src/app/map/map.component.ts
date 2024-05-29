@@ -33,7 +33,6 @@ export class MapComponent implements OnInit {
         northEast = L.latLng(8.494, 142.294),
         bounds = L.latLngBounds(southWest, northEast);
 
-
     this.map = L.map('map', {
       center: [-1.8893, 117.9213], // Centered on Indonesia
       zoom: 5, // Adjust zoom level as needed
@@ -73,7 +72,7 @@ export class MapComponent implements OnInit {
 
         const popupContent = `
         <div>
-          <h3 style="cursor: pointer; color: #00A3FF; font-size: 15px;" id="marker-popup-button-${idStation}">${namaStation}</h3>
+          <span style="cursor: pointer; color: #00A3FF; font-size: 15px;" id="marker-popup-button-${idStation}">${namaStation}</span>
         </div>`;
 
         const marker = L.marker(new L.LatLng(lat, long), { icon: customIcon });

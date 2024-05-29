@@ -15,9 +15,10 @@ import { AdminGuard } from './admin.guard';
 import { AdminComponent } from './admin/admin.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RecordedDataComponent } from './home/models/recorded-data.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './auth/auth.service';
+import { StationComponent } from './station/station.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { AuthService } from './auth/auth.service';
     NavbarComponent,
     HomeComponent,
     AdminComponent,
-    RecordedDataComponent
+    RecordedDataComponent,
+    StationComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +38,8 @@ import { AuthService } from './auth/auth.service';
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [AuthGuard,DataDownloadService,AdminGuard,AuthService],
   bootstrap: [AppComponent]
