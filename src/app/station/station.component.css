@@ -1,29 +1,42 @@
 .badge-green {
     background-color: #9cd84e;
-    color: rgba(0, 0, 0, .6);
+    color: rgba(0, 0, 0);
 }
 
 .badge-yellow {
     background-color: rgb(250, 207, 57);
-    color: rgba(0, 0, 0, .6);
+    color: rgba(0, 0, 0);
 }
 
 .badge-orange {
     background-color: rgb(249, 144, 73);
-    color: rgba(0, 0, 0, .6);
+    color: rgba(0, 0, 0);
 }
 
 .badge-red {
     background-color: rgb(246, 94, 95);
-    color: rgba(255, 255, 255, .6);
+    color: rgba(255, 255, 255);
 }
 
 .badge-purple {
     background-color: rgb(160, 112, 182);
-    color: rgba(255, 255, 255, .6);
+    color: rgba(255, 255, 255);
 }
 
 .badge-maroon {
     background-color: rgb(160, 106, 123);
-    color: rgba(255, 255, 255, .6);
+    color: rgba(255, 255, 255);
+}
+
+.clear-form-control {
+    margin-top: 6px;
+    margin-left: -18px;
+    font-size: 18px;
+    z-index: 1000;
+    cursor: pointer;
+    color: var(--secondary);
+}
+
+.clear-form-control:hover {
+    color: var(--danger);
 }

@@ -1,11 +1,55 @@
 <app-navbar></app-navbar>
 
-<div class="container">
+<div class="container" style="max-width: 1400px;">
     <div class="header">
         <h1 class="title">Indonesia air quality map</h1>
         <h2 class="subtitle">Air pollution map of Indonesia</h2>
     </div>
-    <div class="map">
+    <div class="map" style="margin-bottom: 15px;">
         <app-map></app-map>
+    </div>
+    <div class="row" style="padding-bottom: 15px;">
+        <div class="col-4">
+            <div class="card shadow" style="height: 100%; border-radius: 10px;">
+                <div class="card-body">
+                    <h3 class="text-primary" style="font-weight: bold;">Most Polluted Air Quality Station</h3>
+                    <div class="table-responsive">
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th class="pr-0 pl-0 align-middle">#</th>
+                                    <th class="pr-0 pl-0 align-middle">Station</th>
+                                    <th class="pr-0 pl-0 align-middle text-center" style="width: 10%;">AQI</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let row of listMostPolluted; index as i">
+                                    <td class="pr-0 pl-0 align-middle">{{i + 1}}</td>
+                                    <td class="pr-0 pl-0 align-middle">{{row.nama}}</td>
+                                    <td class="pr-0 pl-0 align-middle text-center">
+                                        <span class="badge badge-pill badge-green" style="padding: 8px 15px;" *ngIf="row.index_1 <= 50">{{row.index_1}}</span>
+                                        <span class="badge badge-pill badge-yellow" style="padding: 8px 15px;" *ngIf="row.index_1 > 50 && row.index_1 <= 100">{{row.index_1}}</span>
+                                        <span class="badge badge-pill badge-orange" style="padding: 8px 15px;" *ngIf="row.index_1 > 100 && row.index_1 <= 150">{{row.index_1}}</span>
+                                        <span class="badge badge-pill badge-red" style="padding: 8px 15px;" *ngIf="row.index_1 > 150 && row.index_1 <= 200">{{row.index_1}}</span>
+                                        <span class="badge badge-pill badge-purple" style="padding: 8px 15px;" *ngIf="row.index_1 > 200 && row.index_1 <= 250">{{row.index_1}}</span>
+                                        <span class="badge badge-pill badge-maroon" style="padding: 8px 15px;" *ngIf="row.index_1 > 250">{{row.index_1}}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="card shadow" style="height: 100%; border-radius: 10px;">
+                <div class="card-body">
+                    <canvas baseChart [datasets]="chartTest.datasets" chartType="pie"
+                        [options]="chartTest.options" height="200"
+                        [labels]="chartTest.labels">
+                    </canvas>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

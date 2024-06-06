@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { ChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -39,6 +40,7 @@ import { StationComponent } from './station/station.component';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    ChartsModule,
     FormsModule
   ],
   providers: [AuthGuard,DataDownloadService,AdminGuard,AuthService],

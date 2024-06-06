@@ -24,6 +24,15 @@ export class NavbarComponent {
   logout() {
     this.authService.logout().subscribe(() => {
       this.router.navigate(['/login']); // Redirect to login page after logout
+
+      return new Promise((resolve, reject) => {
+        localStorage.removeItem('activeuser');
+        resolve(true);
+      });
+    },
+    (error) => {
+      // Handle login error, e.g., display error message
+      console.error('Logout failed:', error);
     });
   }
 }

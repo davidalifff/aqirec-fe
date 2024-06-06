@@ -31,6 +31,12 @@ export class StationComponent implements OnInit {
     this.getData();
   }
 
+  emptyParam() {
+    this.modelParam = {
+      nama: ""
+    }
+  }
+
   getData() {
     const params = {
       nama: this.modelParam.nama

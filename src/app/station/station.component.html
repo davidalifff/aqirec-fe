@@ -11,16 +11,17 @@
             <div class="card" *ngIf="!showDetail">
                 <div class="card-body">
                     <div class="row mb-3">
-                        <div class="col-3">
-                            <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm" [(ngModel)]="modelParam.nama" name="paramnama" placeholder="Cari Berdasarkan Nama">
-                                <div class="input-group-append" (click)="getData()">
-                                    <button class="input-group-text">
-                                        <i class="fa fa-search font-size-12 align-middle"></i>
-                                        &nbsp; Cari
-                                    </button>
-                                </div>
-                            </div>
+                        <div class="col-3 d-flex">
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="modelParam.nama" name="paramnama" placeholder="Cari Berdasarkan Nama" (keyup.enter)="getData()">
+                            <span class="clear-form-control" *ngIf="modelParam.nama != ''" (click)="emptyParam(); getData()">
+                                &times;
+                            </span>
+                        </div>
+                        <div class="col pl-0">
+                            <button type="button" class="btn btn-sm btn-primary" (click)="getData()">
+                                <i class="fa fa-search font-size-12 align-middle"></i>
+                                &nbsp; Cari
+                            </button>
                         </div>
                     </div>
                     <div class="table-responsive">

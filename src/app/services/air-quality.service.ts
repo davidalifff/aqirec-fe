@@ -11,4 +11,8 @@ export class AirQualityService {
   getData() {
     return this.http.get(`http://127.0.0.1:8000/api/air/get-all`);
   }
+
+  getMostPolluted() {
+    return this.http.get(`http://127.0.0.1:8000/api/air/get-most-polluted`);
+  }
 }

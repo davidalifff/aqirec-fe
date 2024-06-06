@@ -24,3 +24,33 @@
     width: 100%;
     overflow-x: hidden;
 }
+
+.badge-green {
+    background-color: #9cd84e;
+    color: rgba(0, 0, 0);
+}
+
+.badge-yellow {
+    background-color: rgb(250, 207, 57);
+    color: rgba(0, 0, 0);
+}
+
+.badge-orange {
+    background-color: rgb(249, 144, 73);
+    color: rgba(0, 0, 0);
+}
+
+.badge-red {
+    background-color: rgb(246, 94, 95);
+    color: rgba(255, 255, 255);
+}
+
+.badge-purple {
+    background-color: rgb(160, 112, 182);
+    color: rgba(255, 255, 255);
+}
+
+.badge-maroon {
+    background-color: rgb(160, 106, 123);
+    color: rgba(255, 255, 255);
+}
