@@ -19,10 +19,10 @@ export class HomeComponent implements OnInit {
     this.getMostPolluted();
     
     this.chartTest = {
-      labels: ['Index Bagus', 'Index Kurang Bagus'],
+      labels: ['Healthy', 'Moderate', 'Unhealthy'],
       datasets: [{
-        data: [10,7],
-        backgroundColor: ['rgba(54, 27, 240, 1)', 'rgba(240, 27, 180, 1)'],
+        data: [5, 4, 1],
+        backgroundColor: ['rgba(156, 216, 78, 1)', 'rgba(250, 207, 57, 1)', 'rgba(246, 94, 95, 1)'],
       }],
       options: {
         maintainAspectRatio: true,

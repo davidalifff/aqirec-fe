@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AirQualityService } from '../services/air-quality.service';
 import * as L from 'leaflet';
 import 'leaflet-gesture-handling';
@@ -15,8 +15,9 @@ declare module 'leaflet' {
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnDestroy {
   map: any;
+  mapVisible: boolean = false;
 
   listData: any = [];
 
@@ -25,7 +26,17 @@ export class MapComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.initMap();
+    this.mapVisible = true;
+    setTimeout(() => {
+      this.initMap();
+    }, 0);
+  }
+
+  ngOnDestroy(): void {
+    // Clean up the map when the component is destroyed
+    if (this.map) {
+      this.map.remove();
+    }
   }
 
   initMap(): void {
