@@ -72,7 +72,7 @@ export class MapComponent implements OnInit, OnDestroy {
         const long = data.long;
         const idStation = data.id;
         const namaStation = data.nama;
-        const index = data.index_1;
+        const index = data.index;
         const color = index <= 50 ? 'map-pin-green' : index <= 100 ? 'map-pin-yellow' : index <= 150 ? 'map-pin-orange' : index <= 200 ? 'map-pin-red' : index <= 250 ? 'map-pin-purple' : 'map-pin-maroon';
 
         // Define custom marker icon

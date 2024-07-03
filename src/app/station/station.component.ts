@@ -61,7 +61,7 @@ export class StationComponent implements OnInit, OnDestroy {
       ]
     });
 
-    this.index = detail[0].index_1;
+    this.index = detail[0].index;
     this.color = this.index <= 50 ? 'green' : this.index <= 100 ? 'yellow' : this.index <= 150 ? 'orange' : this.index <= 200 ? 'red' : this.index <= 250 ? 'purple' : 'maroon';
 
 
