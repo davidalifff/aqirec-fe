@@ -11,7 +11,13 @@
   <button type="submit">Register</button>
 </form> -->
 
-<div class="container" style="position: absolute; max-width: unset; width: 100%; height: 100%; display: table;">
+<body style="background-image: url('/assets/img/background1.png'); background-size: cover; background-position: center; background-color: #f0f0f0;">
+  <div class="header">
+    <h1 class="title" style="text-align: center; position:relative; top: 75px ; font-weight: bold; color: black; font-size : 100px" >AQIREC</h1>
+    <h2 class="title" style="text-align: center; position:relative; top: 100px ; color: black; font-size: 30px;" >Indonesia Air Quality Map</h2>
+  </div>
+
+<div class="container" style="position: absolute; max-width: unset; width: 100%; height: 80%; display: table; margin-top: 50px;">
   <div style="display: table-cell; vertical-align: middle;">
     <div class="card shadow-custom" style="width: 480px; height: auto; border-radius: 15px; margin: auto; overflow: hidden;">
       <div class="row">
@@ -27,7 +33,7 @@
                 <div class="form-group">
                   <label for="email">Name</label>
                   <input type="text" class="form-register" formControlName="name" id="name" placeholder="Your Name" (keyup.enter)="register()" required>
-                </div> 
+                </div>
                 <div class="form-group">
                   <label for="email">Email</label>
                   <input type="text" class="form-register" formControlName="email" id="email" placeholder="Your Email" (keyup.enter)="register()" required>
@@ -61,3 +67,4 @@
     </div>
   </div>
 </div>
+</body>
