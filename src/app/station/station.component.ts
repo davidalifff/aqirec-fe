@@ -19,6 +19,7 @@ export class StationComponent implements OnInit, OnDestroy {
   color: string;
 
   stationForm: any;
+  chartTest: any;
 
   listData: any = [];
   listDetail: any = [];
@@ -28,8 +29,23 @@ export class StationComponent implements OnInit, OnDestroy {
   constructor(private stationService: StationService) { }
 
   ngOnInit(): void {
+     this.chartTest = {
+      labels: ['Healthy', 'Moderate', 'Unhealthy'],
+      datasets: [{
+        data: [5, 4, 1],
+        backgroundColor: ['rgba(156, 216, 78, 1)', 'rgba(250, 207, 57, 1)', 'rgba(246, 94, 95, 1)'],
+      }],
+      options: {
+        maintainAspectRatio: true,
+        legend: {
+          position: "top",
+        }
+      }
+    };
     this.emptyParam();
     this.getData();
+
+
   }
 
   ngOnDestroy(): void {

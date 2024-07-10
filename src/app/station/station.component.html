@@ -1,218 +1,294 @@
 <app-navbar></app-navbar>
 
 <div class="container-fluid" *ngIf="!showDetail">
-    <div class="row my-4">
-        <div class="col-4">
-            <h1 class="mb-0" style="font-weight: 500 !important; font-size: 30px !important; padding-left: 10px;">All Station List</h1>
-        </div>
+  <div class="row my-4">
+    <div class="col-4">
+      <h1 class="mb-0" style="font-weight: 500 !important; font-size: 30px !important; padding-left: 10px;">All Station
+        List</h1>
     </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-3 d-flex">
-                            <input type="text" class="form-control form-control-sm" [(ngModel)]="modelParam.nama" name="paramnama" placeholder="Cari Berdasarkan Nama" (keyup.enter)="getData()">
-                            <span class="clear-form-control" *ngIf="modelParam.nama != ''" (click)="emptyParam(); getData()">
-                                &times;
-                            </span>
-                        </div>
-                        <div class="col pl-0">
-                            <button type="button" class="btn btn-sm btn-primary" (click)="getData()">
-                                <i class="fa fa-search font-size-12 align-middle"></i>
-                                &nbsp; Cari
-                            </button>
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-hover mb-0">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Nama</th>
-                                    <th style="width: 1%;"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <ng-container *ngFor="let row of listData">
-                                    <tr>
-                                        <td>{{row.nama}}</td>
-                                        <td class="text-right">
-                                            <button type="button" class="btn btn-sm btn-info rounded" (click)="view(row)">
-                                                <i class="fa fa-eye"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </ng-container>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-3 d-flex">
+              <input type="text" class="form-control form-control-sm" [(ngModel)]="modelParam.nama" name="paramnama"
+                placeholder="Cari Berdasarkan Nama" (keyup.enter)="getData()">
+              <span class="clear-form-control" *ngIf="modelParam.nama != ''" (click)="emptyParam(); getData()">
+                &times;
+              </span>
             </div>
+            <div class="col pl-0">
+              <button type="button" class="btn btn-sm btn-primary" (click)="getData()">
+                <i class="fa fa-search font-size-12 align-middle"></i>
+                &nbsp; Cari
+              </button>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="thead-light">
+                <tr>
+                  <th>Nama</th>
+                  <th style="width: 1%;"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let row of listData">
+                  <tr>
+                    <td>{{row.nama}}</td>
+                    <td class="text-right">
+                      <button type="button" class="btn btn-sm btn-info rounded" (click)="view(row)">
+                        <i class="fa fa-eye"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <div *ngIf="showDetail">
-    <div class="container" style="max-width: 1200px;">
-        <div class="header">
-            <h1 class="title">Air quality at {{stationForm.nama}}</h1>
-        </div>
-        <div class="row" style="padding-bottom: 15px;">
-            <div class="col-4">
-                <div id="map" style="height: 473px; border-radius: 10px;" *ngIf="mapVisible"></div>
-            </div>
-            <div class="col-8">
-                <div class="card border-0 shadow" style="border-radius: 10px;">
-                    <div class="card-header aqi-{{color}} border-0" style="border-radius: 10px 10px 0 0; padding: 32px;">
-                        <div class="row">
-                            <div class="col-2">
-                                <div class="aqi-box-{{color}}" style="height: 116px; width: 100%; border-radius: 5px; display: flex; flex-direction: column; justify-content: space-between; align-items: start; padding: 12px;">
-                                    <p class="m-0">AQI</p>
-                                    <p class="m-0" style="font-size: 40px; line-height: 40px;">{{index}}</p>
-                                </div>
-                            </div>
-                            <div class="col-8" style="margin-top: 8px;">
-                                <div class="text-uppercase" style="font-size: 16px; line-height: 1.5;">Live Aqi Index</div>
-                                <div class="text-uppercase" style="font-size: 40px; line-height: 1.18;">
-                                    <span class="text-capitalize" style="font-weight: 500 !important;" *ngIf="color == 'green'">Good</span>
-                                    <span class="text-capitalize" style="font-weight: 500 !important;" *ngIf="color == 'yellow'">Moderate</span>
-                                    <span class="text-capitalize" style="font-weight: 500 !important;" *ngIf="color == 'orange'">Unhealthy for sensitive groups</span>
-                                    <span class="text-capitalize" style="font-weight: 500 !important;" *ngIf="color == 'red'">Unhealthy</span>
-                                    <span class="text-capitalize" style="font-weight: 500 !important;" *ngIf="color == 'purple'">Very Unhealthy</span>
-                                    <span class="text-capitalize" style="font-weight: 500 !important;" *ngIf="color == 'maroon'">Hazardous</span>
-                                </div>
-                            </div>
-                            <div class="col-2">
-                                <img src="https://www.iqair.com/assets/aqi/ic-face-{{color}}.svg" style="width: 116px; height: 116px;">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body border-0" style="border-radius: 0 0 10px 10px; padding: 24px;">
-                        <div class="row">
-                            <div class="col-12">
-                                <h3 class="text-uppercase text-primary m-0">Health Recommendations</h3>
-                            </div>
-                            <div class="col-6" style="margin-top: 12px;">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <img src="https://www.iqair.com/assets/recommendations/ic-health-sport-{{color}}.svg" style="width: 58px; height: 58px;">
-                                    </div>
-                                    <div class="col-8 my-auto">
-                                        <span *ngIf="color == 'green'">Enjoy outdoor activities</span>
-                                        <span *ngIf="color == 'yellow'">Sensitive groups should reduce outdoor exercise</span>
-                                        <span *ngIf="color == 'orange'">Reduce outdoor exercise</span>
-                                        <span *ngIf="color == 'red' || color == 'purple' || color == 'maroon'">Avoid outdoor exercise</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6" style="margin-top: 12px;">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <img src="https://www.iqair.com/assets/recommendations/ic-health-window-{{color}}.svg" style="width: 58px; height: 58px;">
-                                    </div>
-                                    <div class="col-8 my-auto">
-                                        <span *ngIf="color == 'green'">Open your windows to bring clean, fresh air indoors</span>
-                                        <span *ngIf="color != 'green'">Close your windows to avoid dirty outdoor air</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6" style="margin-top: 12px;" *ngIf="color != 'green'">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <img src="https://www.iqair.com/assets/recommendations/ic-health-mask-{{color}}.svg" style="width: 58px; height: 58px;">
-                                    </div>
-                                    <div class="col-8 my-auto">
-                                        <span *ngIf="color == 'yellow' || color == 'orange'">Sensitive groups should wear a mask outdoors</span>
-                                        <span *ngIf="color == 'red' || color == 'purple' || color == 'maroon'">Wear a mask outdoors</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6" style="margin-top: 12px;" *ngIf="color != 'green'">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <img src="https://www.iqair.com/assets/recommendations/ic-health-airpurifier-{{color}}.svg" style="width: 58px; height: 58px;">
-                                    </div>
-                                    <div class="col-8 my-auto">
-                                        <span *ngIf="color == 'yellow'">Sensitive groups should run an air purifier</span>
-                                        <span *ngIf="color == 'orange' || color == 'red' || color == 'purple' || color == 'maroon'">Run an air purifier</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card border-0 shadow" style="border-radius: 10px; margin-top: 30px;">
-                    <div class="card-body border-0" style="border-radius: 10px; padding: 24px;">
-                        <div class="row">
-                            <div class="col-12">
-                                <h3 class="text-uppercase text-primary m-0">Forecast</h3>
-                            </div>
-                            <div class="col-12">
-                                <h4>{{stationForm.nama}} air quality index (AQI) forecast</h4>
-                            </div>
-                            <div class="col-12">
-                                <div class="table-responsive">
-                                    <table class="table table-borderless">
-                                        <thead>
-                                            <tr>
-                                                <td style="width: 30%;">Day</td>
-                                                <td style="width: 70%;">Pollution Level</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="align-middle" style="padding: 2.5px .75rem;">Thursday, Jun 20</td>
-                                                <td class="align-middle" style="padding: 2.5px .75rem;">
-                                                    <div class="aqi-yellow" style="width: 100%; height: 50px; padding: 0 12px; display: flex; justify-content: space-between; align-items: center; border-radius: 5px;">
-                                                        <p style="margin: 0; display: flex; justify-content: space-between; flex: 1 1 auto;">
-                                                            <strong style="font-weight: 500;">Modarate</strong>
-                                                            <span style="display: flex; align-items: center; min-width: 78px;"><b style="font-weight: 500; margin-right: 3px;">66</b>AQI</span>
-                                                        </p>
-                                                        <img src="https://www.iqair.com/assets/aqi/ic-face-yellow.svg" style="width: 37px; height: 37px;">
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr style="background-color: rgba(0, 123, 255, .1);">
-                                                <td class="align-middle" style="padding: 2.5px .75rem; border-left: 1px solid var(--primary);">Today</td>
-                                                <td class="align-middle" style="padding: 2.5px .75rem;">
-                                                    <div class="aqi-red" style="width: 100%; height: 50px; padding: 0 12px; display: flex; justify-content: space-between; align-items: center; border-radius: 5px;">
-                                                        <p style="margin: 0; display: flex; justify-content: space-between; flex: 1 1 auto;">
-                                                            <strong style="font-weight: 500;">Unhealthy</strong>
-                                                            <span style="display: flex; align-items: center; min-width: 78px;"><b style="font-weight: 500; margin-right: 3px;">152</b>AQI</span>
-                                                        </p>
-                                                        <img src="https://www.iqair.com/assets/aqi/ic-face-red.svg" style="width: 37px; height: 37px;">
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="align-middle" style="padding: 2.5px .75rem;">Saturday, Jun 22</td>
-                                                <td class="align-middle" style="padding: 2.5px .75rem;">
-                                                    <div class="aqi-orange" style="width: 100%; height: 50px; padding: 0 12px; display: flex; justify-content: space-between; align-items: center; border-radius: 5px;">
-                                                        <p style="margin: 0; display: flex; justify-content: space-between; flex: 1 1 auto;">
-                                                            <strong style="font-weight: 500;">Unhealthy for sensitive groups</strong>
-                                                            <span style="display: flex; align-items: center; min-width: 78px;"><b style="font-weight: 500; margin-right: 3px;">104</b>AQI</span>
-                                                        </p>
-                                                        <img src="https://www.iqair.com/assets/aqi/ic-face-orange.svg" style="width: 37px; height: 37px;">
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12" style="margin-top: 15px;">
-                <button class="btn btn-outline-secondary btn-sm mr-2" (click)="back()">
-                    <i class="fa fa-chevron-left mr-2"></i>
-                    Kembali
-                </button>
-            </div>
-        </div>
+  <div class="container" style="max-width: 1200px;">
+    <div class="header">
+      <h1 class="title">Air quality at {{stationForm.nama}}</h1>
     </div>
-    <!-- <div class="card-body">
+    <div class="row" style="padding-bottom: 15px;">
+      <div class="col-4">
+        <div id="map" style="height: 473px; border-radius: 10px;" *ngIf="mapVisible"></div>
+        <div class="card border-0 shadow mt-4 bg-card">
+          <div class="card-body border-0 d-flex flex-column justify-content-end">
+            <div>
+              <h3 class="text-white" style="text-align: justify;">Need air quality data for further analysis? Or want to share crucial information with your team?</h3>
+              <h2 class="text-white font-weight-bold text-center">We've got you covered!</h2>
+            </div>
+            <div class="d-flex justify-content-center">
+              <div>
+                <button class="btn btn-outline-light btn-lg">Export as CSV</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-8">
+        <div class="card border-0 shadow" style="border-radius: 10px;">
+          <div class="card-header aqi-{{color}} border-0" style="border-radius: 10px 10px 0 0; padding: 32px;">
+            <div class="row">
+              <div class="col-2">
+                <div class="aqi-box-{{color}}"
+                  style="height: 116px; width: 100%; border-radius: 5px; display: flex; flex-direction: column; justify-content: space-between; align-items: start; padding: 12px;">
+                  <p class="m-0">AQI</p>
+                  <p class="m-0" style="font-size: 40px; line-height: 40px;">{{index}}</p>
+                </div>
+              </div>
+              <div class="col-8" style="margin-top: 8px;">
+                <div class="text-uppercase" style="font-size: 16px; line-height: 1.5;">Live Aqi Index</div>
+                <div class="text-uppercase" style="font-size: 40px; line-height: 1.18;">
+                  <span class="text-capitalize" style="font-weight: 500 !important;"
+                    *ngIf="color == 'green'">Good</span>
+                  <span class="text-capitalize" style="font-weight: 500 !important;"
+                    *ngIf="color == 'yellow'">Moderate</span>
+                  <span class="text-capitalize" style="font-weight: 500 !important;" *ngIf="color == 'orange'">Unhealthy
+                    for sensitive groups</span>
+                  <span class="text-capitalize" style="font-weight: 500 !important;"
+                    *ngIf="color == 'red'">Unhealthy</span>
+                  <span class="text-capitalize" style="font-weight: 500 !important;" *ngIf="color == 'purple'">Very
+                    Unhealthy</span>
+                  <span class="text-capitalize" style="font-weight: 500 !important;"
+                    *ngIf="color == 'maroon'">Hazardous</span>
+                </div>
+              </div>
+              <div class="col-2">
+                <img src="https://www.iqair.com/assets/aqi/ic-face-{{color}}.svg" style="width: 116px; height: 116px;">
+              </div>
+            </div>
+          </div>
+          <div class="card-body border-0" style="border-radius: 0 0 10px 10px; padding: 24px;">
+            <div class="row">
+              <div class="col-12">
+                <h3 class="text-uppercase text-primary m-0">Health Recommendations</h3>
+              </div>
+              <div class="col-6" style="margin-top: 12px;">
+                <div class="row">
+                  <div class="col-4">
+                    <img src="https://www.iqair.com/assets/recommendations/ic-health-sport-{{color}}.svg"
+                      style="width: 58px; height: 58px;">
+                  </div>
+                  <div class="col-8 my-auto">
+                    <span *ngIf="color == 'green'">Enjoy outdoor activities</span>
+                    <span *ngIf="color == 'yellow'">Sensitive groups should reduce outdoor exercise</span>
+                    <span *ngIf="color == 'orange'">Reduce outdoor exercise</span>
+                    <span *ngIf="color == 'red' || color == 'purple' || color == 'maroon'">Avoid outdoor exercise</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6" style="margin-top: 12px;">
+                <div class="row">
+                  <div class="col-4">
+                    <img src="https://www.iqair.com/assets/recommendations/ic-health-window-{{color}}.svg"
+                      style="width: 58px; height: 58px;">
+                  </div>
+                  <div class="col-8 my-auto">
+                    <span *ngIf="color == 'green'">Open your windows to bring clean, fresh air indoors</span>
+                    <span *ngIf="color != 'green'">Close your windows to avoid dirty outdoor air</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6" style="margin-top: 12px;" *ngIf="color != 'green'">
+                <div class="row">
+                  <div class="col-4">
+                    <img src="https://www.iqair.com/assets/recommendations/ic-health-mask-{{color}}.svg"
+                      style="width: 58px; height: 58px;">
+                  </div>
+                  <div class="col-8 my-auto">
+                    <span *ngIf="color == 'yellow' || color == 'orange'">Sensitive groups should wear a mask
+                      outdoors</span>
+                    <span *ngIf="color == 'red' || color == 'purple' || color == 'maroon'">Wear a mask outdoors</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6" style="margin-top: 12px;" *ngIf="color != 'green'">
+                <div class="row">
+                  <div class="col-4">
+                    <img src="https://www.iqair.com/assets/recommendations/ic-health-airpurifier-{{color}}.svg"
+                      style="width: 58px; height: 58px;">
+                  </div>
+                  <div class="col-8 my-auto">
+                    <span *ngIf="color == 'yellow'">Sensitive groups should run an air purifier</span>
+                    <span *ngIf="color == 'orange' || color == 'red' || color == 'purple' || color == 'maroon'">Run an
+                      air purifier</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card border-0 shadow mt-4" style="border-radius: 10px;">
+          <div class="card-body border-0" style="border-radius: 10px; padding: 24px;">
+            <div class="row">
+              <div class="col-12">
+                <h3 class="text-uppercase text-primary m-0">Forecast</h3>
+              </div>
+              <div class="col-12">
+                <h4>{{stationForm.nama}} air quality index (AQI) forecast</h4>
+              </div>
+              <div class="col-12">
+                <div class="table-responsive">
+                  <table class="table table-borderless">
+                    <thead>
+                      <tr>
+                        <td style="width: 30%;">Day</td>
+                        <td style="width: 70%;">Pollution Level</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="align-middle" style="padding: 2.5px .75rem;">Thursday, Jun 20</td>
+                        <td class="align-middle" style="padding: 2.5px .75rem;">
+                          <div class="aqi-yellow"
+                            style="width: 100%; height: 50px; padding: 0 12px; display: flex; justify-content: space-between; align-items: center; border-radius: 5px;">
+                            <p style="margin: 0; display: flex; justify-content: space-between; flex: 1 1 auto;">
+                              <strong style="font-weight: 500;">Modarate</strong>
+                              <span style="display: flex; align-items: center; min-width: 78px;"><b
+                                  style="font-weight: 500; margin-right: 3px;">66</b>AQI</span>
+                            </p>
+                            <img src="https://www.iqair.com/assets/aqi/ic-face-yellow.svg"
+                              style="width: 37px; height: 37px;">
+                          </div>
+                        </td>
+                      </tr>
+                      <tr style="background-color: rgba(0, 123, 255, .1);">
+                        <td class="align-middle" style="padding: 2.5px .75rem; border-left: 1px solid var(--primary);">
+                          Today</td>
+                        <td class="align-middle" style="padding: 2.5px .75rem;">
+                          <div class="aqi-red"
+                            style="width: 100%; height: 50px; padding: 0 12px; display: flex; justify-content: space-between; align-items: center; border-radius: 5px;">
+                            <p style="margin: 0; display: flex; justify-content: space-between; flex: 1 1 auto;">
+                              <strong style="font-weight: 500;">Unhealthy</strong>
+                              <span style="display: flex; align-items: center; min-width: 78px;"><b
+                                  style="font-weight: 500; margin-right: 3px;">152</b>AQI</span>
+                            </p>
+                            <img src="https://www.iqair.com/assets/aqi/ic-face-red.svg"
+                              style="width: 37px; height: 37px;">
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="align-middle" style="padding: 2.5px .75rem;">Saturday, Jun 22</td>
+                        <td class="align-middle" style="padding: 2.5px .75rem;">
+                          <div class="aqi-orange"
+                            style="width: 100%; height: 50px; padding: 0 12px; display: flex; justify-content: space-between; align-items: center; border-radius: 5px;">
+                            <p style="margin: 0; display: flex; justify-content: space-between; flex: 1 1 auto;">
+                              <strong style="font-weight: 500;">Unhealthy for sensitive groups</strong>
+                              <span style="display: flex; align-items: center; min-width: 78px;"><b
+                                  style="font-weight: 500; margin-right: 3px;">104</b>AQI</span>
+                            </p>
+                            <img src="https://www.iqair.com/assets/aqi/ic-face-orange.svg"
+                              style="width: 37px; height: 37px;">
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card border-0 shadow mt-4" style="border-radius: 10px;">
+          <div class="card-body border-0 shadow mb-2">
+            <div class="d-flex justify-content-end">
+              <div>
+                <select class="form-control" id="exampleFormControlSelect1">
+                  <option>Pilih Filter...</option>
+                  <option>Hours</option>
+                  <option>Week</option>
+                  <option>Month</option>
+                  <option>Year</option>
+                </select>
+                <!-- <div class="dropdown">
+                  <span class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-filter"
+                      aria-hidden="true"></i></span>
+
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+            <canvas baseChart [datasets]="chartTest.datasets" chartType="bar" [options]="chartTest.options" height="200"
+              [labels]="chartTest.labels">
+            </canvas>
+
+            <div class="d-flex justify-content-center mt-2">
+              <div>
+                <button class="btn btn-outline-primary">AQI</button>
+              </div>
+              <div class="ml-2">
+                <button class="btn btn-outline-primary">PM2.5</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12" style="margin-top: 15px;">
+        <button class="btn btn-outline-secondary btn-sm mr-2" (click)="back()">
+          <i class="fa fa-chevron-left mr-2"></i>
+          Kembali
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="card-body">
         <div class="table-responsive">
             <table class="table table-hover mb-0">
                 <thead class="thead-light">

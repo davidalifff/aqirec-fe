@@ -52,3 +52,9 @@
 .clear-form-control:hover {
     color: var(--danger);
 }
+
+.bg-card{
+  background-image: url('../../assets/img/map2.jpeg');
+  background-size: cover;
+  height:264px;
+}
