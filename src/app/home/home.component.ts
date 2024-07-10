@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AirQualityService } from '../services/air-quality.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -10,14 +11,20 @@ export class HomeComponent implements OnInit {
   map: any;
 
   listMostPolluted: any = [];
+  filteredData: any = [];
 
   chartTest: any;
+  filterAir: any;
 
-  constructor(private airQualityService: AirQualityService) { }
+  constructor(
+    private airQualityService: AirQualityService,
+    private modalService: NgbModal,
+  ) { }
 
   ngOnInit(): void {
     this.getMostPolluted();
-    
+    this.filterAir = 'Healthy'
+    this.filterData()
     this.chartTest = {
       labels: ['Healthy', 'Moderate', 'Unhealthy'],
       datasets: [{
@@ -36,6 +43,26 @@ export class HomeComponent implements OnInit {
   getMostPolluted() {
     this.airQualityService.getMostPolluted().subscribe((res: any) => {
       this.listMostPolluted = res.data;
+      this.filteredData = res.data;
+
     })
+  }
+
+  filterData() {
+    if (this.filterAir === 'Healthy') {
+      this.filteredData = this.listMostPolluted.filter((dt) => dt.index_1 <= 75);
+    } else if (this.filterAir === 'Moderate') {
+      this.filteredData = this.listMostPolluted.filter((dt) => dt.index_1 > 75 && dt.index_1 <= 150);
+    } else if (this.filterAir === 'Unhealthy') {
+      this.filteredData = this.listMostPolluted.filter((dt) => dt.index_1 > 150);
+    } else {
+      this.filteredData = this.listMostPolluted;
+    }
+  }
+  openModal(modal, size) {
+    this.modalService.open(modal, { size: size, centered: true });
+  }
+  closeModal() {
+    this.modalService.dismissAll();
   }
 }
