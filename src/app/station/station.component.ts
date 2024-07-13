@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { StationService } from '../services/station.service';
 import * as L from 'leaflet';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-station',
@@ -26,7 +27,8 @@ export class StationComponent implements OnInit, OnDestroy {
 
   showDetail: boolean = false;
 
-  constructor(private stationService: StationService) { }
+  constructor(
+    private stationService: StationService) { }
 
   ngOnInit(): void {
      this.chartTest = {
@@ -57,7 +59,7 @@ export class StationComponent implements OnInit, OnDestroy {
 
   emptyParam() {
     this.modelParam = {
-      nama: ""
+      nama: "",
     }
   }
 
@@ -121,5 +123,13 @@ export class StationComponent implements OnInit, OnDestroy {
 
   back() {
     this.showDetail = !this.showDetail;
+  }
+
+  downloadCsv(data): void {
+    this.stationService.exportCsv(data.id).subscribe(blob => {
+      saveAs(blob, `${data.nama}.csv`);
+    }, error => {
+      console.error('Download error:', error);
+    });
   }
 }
