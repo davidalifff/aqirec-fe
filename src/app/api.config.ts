@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl = 'http://localhost:8000/api'; // Sesuaikan dengan URL backend Laravel
+  private baseUrl = 'https://api.aqirec.my.id/api'; // Sesuaikan dengan URL backend Laravel
 
   constructor(private http: HttpClient) { }
 

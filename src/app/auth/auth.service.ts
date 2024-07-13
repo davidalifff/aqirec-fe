@@ -8,7 +8,7 @@ import { tap } from 'rxjs/operators';
 })
 // auth.service.ts
 export class AuthService {
-  private baseUrl = 'http://localhost:8000/api/auth'; // Sesuaikan dengan URL backend Laravel
+  private baseUrl = 'https://api.aqirec.my.id/api/auth'; // Sesuaikan dengan URL backend Laravel
   private currentUser: any;
   private isAdmin: boolean;
 
@@ -24,11 +24,11 @@ export class AuthService {
   }
 
   register(userData: { name: string, email: string, password: string, role: string }): Observable<any> {
-    return this.http.post(`http://127.0.0.1:8000/api/auth/register`, userData);
+    return this.http.post(`https://api.aqirec.my.id/api/auth/register`, userData);
   }
 
   logout(): Observable<any> {
-    return this.http.post(`http://127.0.0.1:8000/api/auth/logout`, {});
+    return this.http.post(`https://api.aqirec.my.id/api/auth/logout`, {});
   }
 
   isLoggedIn(): boolean {

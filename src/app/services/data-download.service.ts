@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DataDownloadService {
-  private baseUrl = 'http://localhost:8000/api/data'; // Sesuaikan dengan URL backend Laravel
+  private baseUrl = 'https://api.aqirec.my.id/api/data'; // Sesuaikan dengan URL backend Laravel
 
   constructor(private http: HttpClient) { }
 
