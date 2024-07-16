@@ -65,12 +65,13 @@
         <div class="card border-0 shadow mt-4 bg-card">
           <div class="card-body border-0 d-flex flex-column justify-content-end">
             <div>
-              <h3 class="text-white" style="text-align: justify;">Need air quality data for further analysis? Or want to share crucial information with your team?</h3>
+              <h3 class="text-white" style="text-align: justify;">Need air quality data for further analysis? Or want to
+                share crucial information with your team?</h3>
               <h2 class="text-white font-weight-bold text-center">We've got you covered!</h2>
             </div>
             <div class="d-flex justify-content-center">
               <div>
-                <button class="btn btn-outline-light btn-lg"(click)="downloadCsv(stationForm)">Export as CSV</button>
+                <button class="btn btn-outline-light btn-lg" (click)="downloadCsv(stationForm)">Export as CSV</button>
               </div>
             </div>
           </div>
@@ -189,22 +190,41 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td class="align-middle" style="padding: 2.5px .75rem;">Thursday, Jun 20</td>
+                      <tr *ngFor="let item of pm25Data">
+                        <ng-container *ngIf="isToday(item.day); else notToday">
+                          <td class="align-middle"
+                            style="padding: 2.5px .75rem; border-left: 1px solid var(--primary);">
+                            Today</td>
+                        </ng-container>
+                        <ng-template #notToday>
+                          <td class="align-middle" style="padding: 2.5px .75rem;">{{item.day}}</td>
+                        </ng-template>
                         <td class="align-middle" style="padding: 2.5px .75rem;">
-                          <div class="aqi-yellow"
-                            style="width: 100%; height: 50px; padding: 0 12px; display: flex; justify-content: space-between; align-items: center; border-radius: 5px;">
+                          <div [ngClass]="{
+                            'aqi-green': item.avg <= 50,
+                            'aqi-yellow': item.avg > 51 && item.avg <= 100,
+                            'aqi-orange': item.avg > 101 && item.avg <= 150,
+                            'aqi-red': item.avg > 151 && item.avg <= 200
+                          }"style="width: 100%; height: 50px; padding: 0 12px; display: flex; justify-content: space-between; align-items: center; border-radius: 5px;">
                             <p style="margin: 0; display: flex; justify-content: space-between; flex: 1 1 auto;">
-                              <strong style="font-weight: 500;">Modarate</strong>
-                              <span style="display: flex; align-items: center; min-width: 78px;"><b
-                                  style="font-weight: 500; margin-right: 3px;">66</b>AQI</span>
+                              <strong style="font-weight: 500;"
+                                [ngClass]="{'aqi-green': item.avg <= 50, 'aqi-yellow': item.avg > 51 && item.avg <= 100, 'aqi-orange': item.avg > 101 && item.avg <= 150, 'aqi-red': item.avg > 151 && item.avg <= 200}">
+                                {{ item.avg <= 50 ? 'Healthy' : item.avg <=100 ? 'Moderate' : item.avg <=150 ? 'Unhealthy For Sensitive Groups': 'Unhealthy' }} </strong>
+                                  <span style="display: flex; align-items: center; min-width: 78px;"><b
+                                      style="font-weight: 500; margin-right: 3px;">{{item.avg}}</b>AQI</span>
                             </p>
-                            <img src="https://www.iqair.com/assets/aqi/ic-face-yellow.svg"
+                            <img *ngIf="item.avg <= 50" src="https://www.iqair.com/assets/aqi/ic-face-green.svg"
+                              style="width: 37px; height: 37px;">
+                            <img *ngIf="item.avg > 51 && item.avg <= 100" src="https://www.iqair.com/assets/aqi/ic-face-yellow.svg"
+                              style="width: 37px; height: 37px;">
+                            <img *ngIf="item.avg > 101 && item.avg <= 150" src="https://www.iqair.com/assets/aqi/ic-face-orange.svg"
+                              style="width: 37px; height: 37px;">
+                              <img *ngIf="item.avg > 151 && item.avg <= 200" src="https://www.iqair.com/assets/aqi/ic-face-red.svg"
                               style="width: 37px; height: 37px;">
                           </div>
                         </td>
                       </tr>
-                      <tr style="background-color: rgba(0, 123, 255, .1);">
+                      <!-- <tr style="background-color: rgba(0, 123, 255, .1);">
                         <td class="align-middle" style="padding: 2.5px .75rem; border-left: 1px solid var(--primary);">
                           Today</td>
                         <td class="align-middle" style="padding: 2.5px .75rem;">
@@ -234,7 +254,7 @@
                               style="width: 37px; height: 37px;">
                           </div>
                         </td>
-                      </tr>
+                      </tr> -->
                     </tbody>
                   </table>
                 </div>

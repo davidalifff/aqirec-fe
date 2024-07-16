@@ -2,6 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { StationService } from '../services/station.service';
 import * as L from 'leaflet';
 import { saveAs } from 'file-saver';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-station',
@@ -9,9 +12,7 @@ import { saveAs } from 'file-saver';
   styleUrls: ['./station.component.css']
 })
 export class StationComponent implements OnInit, OnDestroy {
-  modelParam: {
-    nama;
-  }
+  modelParam: { nama: string };
 
   map: any;
   mapVisible: boolean = false;
@@ -21,17 +22,19 @@ export class StationComponent implements OnInit, OnDestroy {
 
   stationForm: any;
   chartTest: any;
+  forecast: any;
 
   listData: any = [];
   listDetail: any = [];
+  listForecast: any = [];
+  pm25Data:any [];
 
   showDetail: boolean = false;
 
-  constructor(
-    private stationService: StationService) { }
+  constructor(private stationService: StationService) { }
 
   ngOnInit(): void {
-     this.chartTest = {
+    this.chartTest = {
       labels: ['Healthy', 'Moderate', 'Unhealthy'],
       datasets: [{
         data: [5, 4, 1],
@@ -46,31 +49,26 @@ export class StationComponent implements OnInit, OnDestroy {
     };
     this.emptyParam();
     this.getData();
-
-
   }
 
   ngOnDestroy(): void {
-    // Clean up the map when the component is destroyed
     if (this.map) {
       this.map.remove();
     }
   }
 
   emptyParam() {
-    this.modelParam = {
-      nama: "",
-    }
+    this.modelParam = { nama: "" };
   }
 
-  initMap(data, detail) {
+  initMap(data: any, detail: any) {
     this.map = L.map('map', {
-      center: [data.lat, data.long], // Centered on Indonesia
-      zoom: 9, // Adjust zoom level as needed
-      zoomControl: false, // Disable zoom control
-      scrollWheelZoom: false, // Disable zooming via mouse scroll
-      gestureHandling: false, // Disable gesture handling
-      dragging: false, // Disable map drag
+      center: [data.lat, data.long],
+      zoom: 9,
+      zoomControl: false,
+      scrollWheelZoom: false,
+      gestureHandling: false,
+      dragging: false,
       layers: [
         L.tileLayer('https://osm.airvisual.net/{z}/{x}/{y}.png', {
           maxZoom: 19,
@@ -82,8 +80,6 @@ export class StationComponent implements OnInit, OnDestroy {
     this.index = detail[0].index;
     this.color = this.index <= 50 ? 'green' : this.index <= 100 ? 'yellow' : this.index <= 150 ? 'orange' : this.index <= 200 ? 'red' : this.index <= 250 ? 'purple' : 'maroon';
 
-
-    // Define custom marker icon
     const customIcon = L.divIcon({
       iconSize: [0, 0],
       html: `<div class="map-pin map-pin-${this.color}" style="cursor: auto">${this.index}</div>`
@@ -97,39 +93,76 @@ export class StationComponent implements OnInit, OnDestroy {
   }
 
   getData() {
-    const params = {
-      nama: this.modelParam.nama
-    }
+    const params = { nama: this.modelParam.nama };
 
     this.stationService.getData(params).subscribe((res: any) => {
       this.listData = res.data;
     });
   }
 
-  view(data) {
+  view(data: any) {
     this.stationForm = data;
+    this.showDetail = true; // Default to showing details
 
-    this.stationService.getById(data.id).subscribe((res: any) => {
-      this.listDetail = res.data;
+    forkJoin({
+      detail: this.stationService.getById(data.id),
+      forecast: this.stationService.getForecast(data.id).pipe(
+        catchError(error => {
+          console.error('Error fetching forecast:', error);
+          return of(null); // Return empty observable or default value
+        })
+      )
+    }).subscribe((result: any) => {
+      this.listDetail = result.detail.data;
+      this.listForecast = result.forecast ? result.forecast.data : null;
 
-      this.showDetail = !this.showDetail;
+      // Initialize forecast and pm25Data to null if there's no forecast data
+      this.forecast = null;
+      this.pm25Data = null;
 
-      this.mapVisible = true;
+      if (this.listForecast) {
+        const url = this.listForecast.url_1 || this.listForecast.url_2;
+        if (url) {
+          this.stationService.getDataFromUrl(url).subscribe((forecastData: any) => {
+            if (forecastData && forecastData.data && forecastData.data.forecast && forecastData.data.forecast.daily) {
+              this.forecast = forecastData.data.forecast.daily;
+              this.pm25Data = this.forecast.pm25 || null;
+
+            } else {
+              console.error('Invalid forecast data format:', forecastData);
+              // Handle invalid or unexpected data format
+            }
+
+            this.mapVisible = true;
+            setTimeout(() => {
+              this.initMap(data, this.listDetail.reverse());
+            }, 0);
+          });
+        }
+      }
+
+      // Always initialize map with listDetail, even without forecast
       setTimeout(() => {
         this.initMap(data, this.listDetail.reverse());
       }, 0);
     });
   }
 
+
   back() {
     this.showDetail = !this.showDetail;
   }
 
-  downloadCsv(data): void {
+  downloadCsv(data: any): void {
     this.stationService.exportCsv(data.id).subscribe(blob => {
       saveAs(blob, `${data.nama}.csv`);
     }, error => {
       console.error('Download error:', error);
     });
+  }
+
+  isToday(dateString: string): boolean {
+    const today = moment().format('YYYY-MM-DD');
+    return moment(dateString).format('YYYY-MM-DD') === today;
   }
 }
