@@ -106,7 +106,7 @@ export class HomeComponent implements OnInit {
         this.isFilterLoading = false;
       });
     } else if (this.filterAir === 'Unhealthy') {
-      this.airQualityService.getOverallByGroup('unhealthy').subscribe((res: any) => {
+      this.airQualityService.getOverallByGroup('unhealty').subscribe((res: any) => {
         this.filteredData = res.data;
         this.isFilterLoading = false;
       }, () => {
