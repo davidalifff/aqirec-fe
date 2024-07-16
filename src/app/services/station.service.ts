@@ -25,7 +25,6 @@ export class StationService {
 
   getForecast(id) {
     return this.http.get(`https://api.aqirec.my.id/api/station/get/` + id);
-
   }
 
   getDataFromUrl(url:string) {

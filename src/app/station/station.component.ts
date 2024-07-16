@@ -200,5 +200,9 @@ export class StationComponent implements OnInit, OnDestroy {
     }
   }
 
+  isToday(dateString: string): boolean {
+    const today = moment().format('YYYY-MM-DD');
+    return moment(dateString).format('YYYY-MM-DD') === today;
+  }
 
 }
