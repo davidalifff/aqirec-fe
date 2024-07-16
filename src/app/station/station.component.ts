@@ -2,6 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { StationService } from '../services/station.service';
 import * as L from 'leaflet';
 import { saveAs } from 'file-saver';
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-station',
@@ -24,11 +27,17 @@ export class StationComponent implements OnInit, OnDestroy {
 
   listData: any = [];
   listDetail: any = [];
+  selectedStation: any;
+  idMap: any;
+  isEmpty: boolean = false;
 
   showDetail: boolean = false;
 
   constructor(
-    private stationService: StationService) { }
+    private route: ActivatedRoute,
+    private stationService: StationService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
      this.chartTest = {
@@ -46,6 +55,15 @@ export class StationComponent implements OnInit, OnDestroy {
     };
     this.emptyParam();
     this.getData();
+    this.route.params.subscribe(params => {
+      const id = params['id'];
+      this.idMap = id
+      if (this.idMap != undefined) {
+        setTimeout(() => {
+          this.view(this.selectedStation);
+        }, 200);
+      }
+    });
 
 
   }
@@ -103,12 +121,13 @@ export class StationComponent implements OnInit, OnDestroy {
 
     this.stationService.getData(params).subscribe((res: any) => {
       this.listData = res.data;
+      this.selectedStation = this.listData.find((data) => data.id == this.idMap)
     });
   }
 
   view(data) {
     this.stationForm = data;
-
+    data = this.idMap == null ? data : this.selectedStation
     this.stationService.getById(data.id).subscribe((res: any) => {
       this.listDetail = res.data;
 
@@ -126,10 +145,23 @@ export class StationComponent implements OnInit, OnDestroy {
   }
 
   downloadCsv(data): void {
-    this.stationService.exportCsv(data.id).subscribe(blob => {
-      saveAs(blob, `${data.nama}.csv`);
-    }, error => {
-      console.error('Download error:', error);
-    });
+    if (localStorage.getItem('activeuser') == null) {
+      Swal.fire({
+        title: "Anda belum Login",
+        text: "Silahkan Login terlebih dahulu",
+        icon: "info",
+        showConfirmButton: false,
+        showCloseButton: true,
+        showCancelButton: false,
+        focusConfirm: false,
+        footer: '<a href="/login">Login</a>'
+      });
+    } else {
+      this.stationService.exportCsv(data.id).subscribe(blob => {
+        saveAs(blob, `${data.nama}.csv`);
+      }, error => {
+        console.error('Download error:', error);
+      });
+    }
   }
 }

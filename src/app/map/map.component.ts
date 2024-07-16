@@ -1,7 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AirQualityService } from '../services/air-quality.service';
 import * as L from 'leaflet';
 import 'leaflet-gesture-handling';
+import { StationComponent } from '../station/station.component';
+import { Router } from '@angular/router';
 
 // Custom options for MapOptions
 declare module 'leaflet' {
@@ -16,13 +18,15 @@ declare module 'leaflet' {
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit, OnDestroy {
+  @ViewChild('stationComponent') stationComponent: StationComponent;
   map: any;
   mapVisible: boolean = false;
 
   listData: any = [];
 
   constructor(
-    private airService: AirQualityService
+    private airService: AirQualityService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -66,7 +70,6 @@ export class MapComponent implements OnInit, OnDestroy {
 
     this.airService.getData().subscribe((res: any) => {
       this.listData = res.data;
-      
       this.listData.forEach((data) => {
         const lat = data.lat;
         const long = data.long;
@@ -95,11 +98,22 @@ export class MapComponent implements OnInit, OnDestroy {
           closeButton: false
         });
 
+        marker.on('popupopen', () => {
+          setTimeout(() => {
+            const element = document.getElementById(`marker-popup-button-${idStation}`);
+            if (element) {
+              element.addEventListener('click', () => {
+                this.router.navigate(['/station', idStation]);
+              });
+            }
+          }, 0);
+        });
+
         if (index != '-') {
           marker.addTo(this.map);
         }
       });
     });
-    
+
   }
 }

@@ -12,9 +12,9 @@ import { StationComponent } from './station/station.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] }, // Menambahkan canActivate: [AuthGuard]
-  { path: 'station', component: StationComponent, canActivate: [AuthGuard] }, // Menambahkan canActivate: [AuthGuard]
-  { path: 'station/:id', component: StationComponent, canActivate: [AuthGuard] }, // Menambahkan canActivate: [AuthGuard]
+  { path: 'home', component: HomeComponent }, // Menambahkan canActivate: [AuthGuard]
+  { path: 'station', component: StationComponent }, // Menambahkan canActivate: [AuthGuard]
+  { path: 'station/:id', component: StationComponent }, // Menambahkan canActivate: [AuthGuard]
   { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] }, // Route yang diproteksi
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 

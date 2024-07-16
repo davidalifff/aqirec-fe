@@ -58,3 +58,9 @@
   background-size: cover;
   height:264px;
 }
+
+.empty-forecast{
+  background-image: url('../../assets/img/empty-forecast.jpeg');
+  background-size: cover;
+  height:326px;
+}
