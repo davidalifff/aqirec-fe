@@ -21,4 +21,12 @@ export class StationService {
   exportCsv(id): Observable<Blob> {
     return this.http.get(`https://api.aqirec.my.id/api/air/export-data-aqi/` + id, { responseType: 'blob' });
   }
+
+  getForecast(id) {
+    return this.http.get(`http://127.0.0.1:8000/api/station/get/` + id);
+  }
+
+  getDataFromUrl(url:string) {
+    return this.http.get(url);
+  }
 }

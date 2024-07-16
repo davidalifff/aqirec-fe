@@ -41,7 +41,8 @@ import { StationComponent } from './station/station.component';
     ReactiveFormsModule,
     HttpClientModule,
     ChartsModule,
-    FormsModule
+    FormsModule,
+    
   ],
   providers: [AuthGuard,DataDownloadService,AdminGuard,AuthService],
   bootstrap: [AppComponent]

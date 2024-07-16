@@ -132,5 +132,8 @@
       }
     }
   },
-  "defaultProject": "aqirec-fe"
+  "defaultProject": "aqirec-fe",
+  "cli": {
+    "analytics": false
+  }
 }
