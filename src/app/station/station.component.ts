@@ -44,6 +44,8 @@ export class StationComponent implements OnInit, OnDestroy {
     private authService: AuthService
   ) { }
 
+
+
   ngOnInit(): void {
     this.chartTest = {
       labels: ['Healthy', 'Moderate', 'Unhealthy'],
@@ -69,6 +71,8 @@ export class StationComponent implements OnInit, OnDestroy {
         }, 200);
       }
     });
+
+
   }
 
   ngOnDestroy(): void {
@@ -170,6 +174,7 @@ export class StationComponent implements OnInit, OnDestroy {
     });
   }
 
+
   back() {
     this.showDetail = !this.showDetail;
   }
@@ -194,6 +199,7 @@ export class StationComponent implements OnInit, OnDestroy {
       });
     }
   }
+
 
   isToday(dateString: string): boolean {
     const today = moment().format('YYYY-MM-DD');
