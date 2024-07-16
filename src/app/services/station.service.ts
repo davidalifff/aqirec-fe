@@ -23,7 +23,7 @@ export class StationService {
   }
 
   getForecast(id) {
-    return this.http.get(`http://127.0.0.1:8000/api/station/get/` + id);
+    return this.http.get(`https://api.aqirec.my.id/api/station/get/` + id);
   }
 
   getDataFromUrl(url:string) {
