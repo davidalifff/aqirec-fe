@@ -16,6 +16,7 @@ import * as moment from 'moment';
 })
 export class StationComponent implements OnInit, OnDestroy {
   modelParam: { nama: string };
+  modelParam: { nama: string };
 
   map: any;
   mapVisible: boolean = false;
@@ -25,6 +26,7 @@ export class StationComponent implements OnInit, OnDestroy {
 
   stationForm: any;
   chartTest: any;
+  forecast: any;
   forecast: any;
 
   listData: any = [];
@@ -45,6 +47,7 @@ export class StationComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.chartTest = {
     this.chartTest = {
       labels: ['Healthy', 'Moderate', 'Unhealthy'],
       datasets: [{
@@ -79,10 +82,18 @@ export class StationComponent implements OnInit, OnDestroy {
 
   emptyParam() {
     this.modelParam = { nama: "" };
+    this.modelParam = { nama: "" };
   }
 
   initMap(data: any, detail: any) {
+  initMap(data: any, detail: any) {
     this.map = L.map('map', {
+      center: [data.lat, data.long],
+      zoom: 9,
+      zoomControl: false,
+      scrollWheelZoom: false,
+      gestureHandling: false,
+      dragging: false,
       center: [data.lat, data.long],
       zoom: 9,
       zoomControl: false,
@@ -114,6 +125,7 @@ export class StationComponent implements OnInit, OnDestroy {
 
   getData() {
     const params = { nama: this.modelParam.nama };
+    const params = { nama: this.modelParam.nama };
 
     this.stationService.getData(params).subscribe((res: any) => {
       this.listData = res.data;
@@ -121,6 +133,7 @@ export class StationComponent implements OnInit, OnDestroy {
     });
   }
 
+  view(data: any) {
   view(data: any) {
     this.stationForm = data;
     data = this.idMap == null ? data : this.selectedStation;
@@ -170,6 +183,7 @@ export class StationComponent implements OnInit, OnDestroy {
     });
   }
 
+
   back() {
     this.showDetail = !this.showDetail;
   }
@@ -193,6 +207,11 @@ export class StationComponent implements OnInit, OnDestroy {
         console.error('Download error:', error);
       });
     }
+  }
+
+  isToday(dateString: string): boolean {
+    const today = moment().format('YYYY-MM-DD');
+    return moment(dateString).format('YYYY-MM-DD') === today;
   }
 
   isToday(dateString: string): boolean {
