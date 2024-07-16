@@ -8,6 +8,13 @@
   <div class="map" style="margin-bottom: 15px;">
     <app-map></app-map>
   </div>
+
+  <div *ngIf="isLoading" class="text-center my-4">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
   <div class="row" style="padding-bottom: 15px;">
     <div class="col-4">
       <div class="card shadow" style="height: 100%; border-radius: 10px;">
@@ -84,22 +91,32 @@
         </select>
       </div>
     </div>
-    <ng-container *ngFor="let row of filteredData; index as i">
-      <div class="d-flex justify-content-between">
-        <div>
-          <p>{{row.nama}}</p>
-        </div>
-        <div>
-          <span class="badge badge-pill badge-green" style="padding: 8px 15px;"
-            *ngIf="filterAir == 'Healthy'">{{row.index_1}}</span>
-          <span class="badge badge-pill badge-yellow" style="padding: 8px 15px;"
-            *ngIf="filterAir == 'Moderate'">{{row.index_1}}</span>
-          <span class="badge badge-pill badge-red" style="padding: 8px 15px;"
-            *ngIf="filterAir == 'Unhealthy'">{{row.index_1}}</span>
-          <span class="badge badge-pill badge-orange" style="padding: 8px 15px;"
-            *ngIf="filterAir == null">{{row.index_1}}</span>
-        </div>
+
+    <div *ngIf="isFilterLoading" class="text-center my-4">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
       </div>
+    </div>
+
+
+    <ng-container *ngIf="!isFilterLoading">
+      <ng-container *ngFor="let row of filteredData; index as i">
+        <div class="d-flex justify-content-between">
+          <div>
+            <p>{{row.nama}}</p>
+          </div>
+          <div>
+            <span class="badge badge-pill badge-green" style="padding: 8px 15px;"
+              *ngIf="filterAir == 'Healthy'">{{row.aqi}}</span>
+            <span class="badge badge-pill badge-yellow" style="padding: 8px 15px;"
+              *ngIf="filterAir == 'Moderate'">{{row.aqi}}</span>
+            <span class="badge badge-pill badge-red" style="padding: 8px 15px;"
+              *ngIf="filterAir == 'Unhealthy'">{{row.aqi}}</span>
+            <span class="badge badge-pill badge-orange" style="padding: 8px 15px;"
+              *ngIf="filterAir == null">{{row.aqi}}</span>
+          </div>
+        </div>
+      </ng-container>
     </ng-container>
   </div>
 </ng-template>
