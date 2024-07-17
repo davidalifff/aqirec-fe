@@ -194,7 +194,7 @@ export class StationComponent implements OnInit, OnDestroy {
     //   });
     // } else {
     // }
-    
+
     this.stationService.exportCsv(data.id).subscribe(blob => {
       saveAs(blob, `${data.nama}.csv`);
     }, error => {
