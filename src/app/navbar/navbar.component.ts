@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-navbar',
@@ -20,7 +21,7 @@ export class NavbarComponent {
       event.preventDefault();
     }
   }
-  
+
   logout() {
     this.authService.logout().subscribe(() => {
       this.router.navigate(['/login']); // Redirect to login page after logout
@@ -34,5 +35,22 @@ export class NavbarComponent {
       // Handle login error, e.g., display error message
       console.error('Logout failed:', error);
     });
+  }
+
+  moveToStation(){
+    if (localStorage.getItem('activeuser') == null) {
+      Swal.fire({
+        title: "Anda belum Login",
+        text: "Silahkan Login terlebih dahulu",
+        icon: "info",
+        showConfirmButton: false,
+        showCloseButton: true,
+        showCancelButton: false,
+        focusConfirm: false,
+        footer: '<a href="/login">Login</a>'
+      });
+    } else {
+      this.router.navigate(['/station']);
+    }
   }
 }
