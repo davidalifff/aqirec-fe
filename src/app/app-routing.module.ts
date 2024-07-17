@@ -13,8 +13,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'home', component: HomeComponent }, // Menambahkan canActivate: [AuthGuard]
-  { path: 'station', component: StationComponent }, // Menambahkan canActivate: [AuthGuard]
-  { path: 'station/:id', component: StationComponent }, // Menambahkan canActivate: [AuthGuard]
+  { path: 'station', component: StationComponent, canActivate: [AdminGuard] }, // Menambahkan canActivate: [AuthGuard]
+  { path: 'station/:id', component: StationComponent, canActivate: [AdminGuard] }, // Menambahkan canActivate: [AuthGuard]
   { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] }, // Route yang diproteksi
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 
