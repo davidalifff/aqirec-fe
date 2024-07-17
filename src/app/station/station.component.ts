@@ -122,6 +122,8 @@ export class StationComponent implements OnInit, OnDestroy {
     this.stationService.getData(params).subscribe((res: any) => {
       this.listData = res.data;
       this.selectedStation = this.listData.find((data) => data.id == this.idMap)
+
+
     });
   }
 
@@ -145,23 +147,23 @@ export class StationComponent implements OnInit, OnDestroy {
   }
 
   downloadCsv(data): void {
-    if (localStorage.getItem('activeuser') == null) {
-      Swal.fire({
-        title: "Anda belum Login",
-        text: "Silahkan Login terlebih dahulu",
-        icon: "info",
-        showConfirmButton: false,
-        showCloseButton: true,
-        showCancelButton: false,
-        focusConfirm: false,
-        footer: '<a href="/login">Login</a>'
-      });
-    } else {
-      this.stationService.exportCsv(data.id).subscribe(blob => {
-        saveAs(blob, `${data.nama}.csv`);
-      }, error => {
-        console.error('Download error:', error);
-      });
-    }
+    // if (localStorage.getItem('activeuser') == null) {
+    //   Swal.fire({
+    //     title: "Anda belum Login",
+    //     text: "Silahkan Login terlebih dahulu",
+    //     icon: "info",
+    //     showConfirmButton: false,
+    //     showCloseButton: true,
+    //     showCancelButton: false,
+    //     focusConfirm: false,
+    //     footer: '<a href="/login">Login</a>'
+    //   });
+    // } else {
+    // }
+    this.stationService.exportCsv(data.id).subscribe(blob => {
+      saveAs(blob, `${data.nama}.csv`);
+    }, error => {
+      console.error('Download error:', error);
+    });
   }
 }
