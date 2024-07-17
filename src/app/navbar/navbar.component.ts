@@ -38,7 +38,7 @@ export class NavbarComponent {
   }
 
   moveToStation(){
-    if (localStorage.getItem('activeuser') == null) {
+    if (!this.authService.getIsAdmin()) {
       Swal.fire({
         title: "Anda belum Login",
         text: "Silahkan Login terlebih dahulu",
