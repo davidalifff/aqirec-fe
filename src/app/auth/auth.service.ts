@@ -18,7 +18,8 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/login`, credentials).pipe(
       tap((user) => {
         this.currentUser = user;
-        this.isAdmin = user.role === 'admin'; // Set isAdmin berdasarkan role pengguna
+        // this.isAdmin = user.role === 'admin'; // Set isAdmin berdasarkan role pengguna
+        this.isAdmin = localStorage.getItem('activeuser') !== null ? true : false;
       })
     );
   }
