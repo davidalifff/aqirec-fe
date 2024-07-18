@@ -36,7 +36,9 @@ export class StationComponent implements OnInit, OnDestroy {
   showDetail: boolean = false;
 
   listForecast: any = [];
-  pm25Data: any[] = [];
+  pm25Data: any[] = [
+    this.isEmpty = true
+  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -155,6 +157,7 @@ export class StationComponent implements OnInit, OnDestroy {
               if (forecastData && forecastData.data && forecastData.data.forecast && forecastData.data.forecast.daily) {
                 this.forecast = forecastData.data.forecast.daily;
                 this.pm25Data = this.forecast.pm25 || null;
+                this.isEmpty = false;
               } else {
                 console.error('Invalid forecast data format:', forecastData);
               }
