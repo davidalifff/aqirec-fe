@@ -64,3 +64,8 @@
   background-size: cover;
   height:326px;
 }
+
+.btn-active {
+  background-color: #007bff;
+  color: white;
+}

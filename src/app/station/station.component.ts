@@ -23,6 +23,9 @@ export class StationComponent implements OnInit, OnDestroy {
   index: any;
   color: string;
 
+  selectedFilter: any;
+  selectedDataType: any;
+
   stationForm: any;
   chartTest: any;
   forecast: any;
@@ -37,8 +40,10 @@ export class StationComponent implements OnInit, OnDestroy {
 
   listForecast: any = [];
   pm25Data: any[] = [
-    this.isEmpty = true
+    this.isEmpty = true,
   ];
+
+  chartDetail: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -46,23 +51,29 @@ export class StationComponent implements OnInit, OnDestroy {
     private authService: AuthService
   ) { }
 
-
-
-
   ngOnInit(): void {
     this.chartTest = {
       labels: ['Healthy', 'Moderate', 'Unhealthy'],
       datasets: [{
-        data: [5, 4, 1],
+        data: [0, 0, 0],
         backgroundColor: ['rgba(156, 216, 78, 1)', 'rgba(250, 207, 57, 1)', 'rgba(246, 94, 95, 1)'],
       }],
       options: {
         maintainAspectRatio: true,
         legend: {
           position: "top",
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              min: 0
+            }
+          }]
         }
       }
     };
+
     this.emptyParam();
     this.getData();
     this.route.params.subscribe(params => {
@@ -73,9 +84,9 @@ export class StationComponent implements OnInit, OnDestroy {
           this.view(this.selectedStation);
         }, 200);
       }
+      this.selectedDataType = 'AQI';
+      this.selectedFilter = 'Days';
     });
-
-
   }
 
   ngOnDestroy(): void {
@@ -129,6 +140,7 @@ export class StationComponent implements OnInit, OnDestroy {
   }
 
   view(data: any) {
+    this.filterData(data.id, this.selectedDataType, this.selectedFilter);
     this.stationForm = data;
     data = this.idMap == null ? data : this.selectedStation;
     this.stationService.getById(data.id).subscribe((res: any) => {
@@ -178,7 +190,6 @@ export class StationComponent implements OnInit, OnDestroy {
     });
   }
 
-
   back() {
     this.showDetail = !this.showDetail;
   }
@@ -208,5 +219,68 @@ export class StationComponent implements OnInit, OnDestroy {
   isToday(dateString: string): boolean {
     const today = moment().format('YYYY-MM-DD');
     return moment(dateString).format('YYYY-MM-DD') === today;
+  }
+
+  onFilterChange = (id, filter) => {
+    this.selectedFilter = filter
+
+    this.filterData(id, this.selectedDataType, this.selectedFilter);
+  }
+
+  onDataTypeChange = (id, dataType) => {
+    this.selectedDataType = dataType;
+    this.filterData(id, this.selectedDataType, this.selectedFilter);
+  }
+
+  filterData(id, type, filter) {
+    filter = this.selectedFilter
+    type = this.selectedDataType
+    const now = new Date();
+    var date = now.toISOString().split('T')[0];
+
+    const handleResponse = (res: any) => {
+      console.log("API Response:", res);
+        this.chartDetail = res.data;
+        this.updateChart();
+        this.isEmpty = this.chartDetail === null;
+    };
+
+    const handleError = () => {
+      this.isEmpty = true;
+    };
+
+    if (type === 'AQI') {
+        if (filter === 'Days') {
+            this.stationService.getDetailDaily(id, date).subscribe(handleResponse, handleError);
+        } else if (filter === 'Week') {
+            this.stationService.getDetailWeekly(id).subscribe(handleResponse, handleError);
+        } else if (filter === 'Month') {
+            this.stationService.getDetailMonthly(id).subscribe(handleResponse, handleError);
+        } else if (filter === 'Year') {
+            this.stationService.getDetailYear(id).subscribe(handleResponse, handleError);
+        }
+    } else if (type === 'PM2.5') {
+        if (filter === 'Days') {
+            this.stationService.getPm25Daily(id, date).subscribe(handleResponse, handleError);
+        } else if (filter === 'Week') {
+            this.stationService.getPm25Weekly(id).subscribe(handleResponse, handleError);
+        } else if (filter === 'Month') {
+            this.stationService.getPm25Monthly(id).subscribe(handleResponse, handleError);
+        } else if (filter === 'Year') {
+            this.stationService.getPm25Year(id).subscribe(handleResponse, handleError);
+        }
+    }
+  }
+
+  updateChart(): void {
+    console.log(this.chartDetail);
+
+    if(this.chartDetail !== null){
+      this.chartTest.datasets[0].data = [this.chartDetail.healty, this.chartDetail.moderate, this.chartDetail.unhealty];
+    }
+    else{
+      this.chartTest.datasets[0].data = [Math.max(0),Math.max(0),Math.max(0)];
+    }
+
   }
 }

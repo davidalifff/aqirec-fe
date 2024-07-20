@@ -268,23 +268,12 @@
           <div class="card-body border-0 shadow mb-2">
             <div class="d-flex justify-content-end">
               <div>
-                <select class="form-control" id="exampleFormControlSelect1">
-                  <option>Pilih Filter...</option>
-                  <option>Days</option>
-                  <option>Week</option>
-                  <option>Month</option>
-                  <option>Year</option>
+                <select class="form-control" (change)="onFilterChange(stationForm.id,$event.target.value)">
+                  <option value="Days">Days</option>
+                  <option value="Week">Week</option>
+                  <option value="Month">Month</option>
+                  <option value="Year">Year</option>
                 </select>
-                <!-- <div class="dropdown">
-                  <span class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-filter"
-                      aria-hidden="true"></i></span>
-
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                  </div>
-                </div> -->
               </div>
             </div>
             <canvas baseChart [datasets]="chartTest.datasets" chartType="bar" [options]="chartTest.options" height="200"
@@ -293,10 +282,10 @@
 
             <div class="d-flex justify-content-center mt-2">
               <div>
-                <button class="btn btn-outline-primary">AQI</button>
+                <button class="btn btn-outline-primary"  [ngClass]="{'btn-active': selectedDataType === 'AQI'}"  (click)="onDataTypeChange(stationForm.id,'AQI')">AQI</button>
               </div>
               <div class="ml-2">
-                <button class="btn btn-outline-primary">PM2.5</button>
+                <button class="btn btn-outline-primary" [ngClass]="{'btn-active': selectedDataType === 'PM2.5'}"  (click)="onDataTypeChange(stationForm.id,'PM2.5')">PM2.5</button>
               </div>
             </div>
           </div>
