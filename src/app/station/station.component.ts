@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import * as moment from 'moment';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-station',
@@ -53,23 +54,40 @@ export class StationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.chartTest = {
-      labels: ['Healthy', 'Moderate', 'Unhealthy'],
+      labels: [],
       datasets: [{
-        data: [0, 0, 0],
-        backgroundColor: ['rgba(156, 216, 78, 1)', 'rgba(250, 207, 57, 1)', 'rgba(246, 94, 95, 1)'],
+        data: [],
+        label: "",
+        backgroundColor: 'rgba(148,159,177,0.2)',
+        borderColor: 'rgba(148,159,177,1)',
+        pointBackgroundColor: 'rgba(148,159,177,1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(148,159,177,0.8)',
+        fill: 'origin',
       }],
       options: {
-        maintainAspectRatio: true,
-        legend: {
-          position: "top",
+        elements: {
+          line: {
+            tension: 0.5,
+          },
         },
         scales: {
-          yAxes: [{
+          y: {
+            position: 'left',
+          },
+          y1: {
+            position: 'right',
+            grid: {
+              color: 'rgba(255,0,0,0.3)',
+            },
             ticks: {
-              beginAtZero: true,
-              min: 0
-            }
-          }]
+              color: 'red',
+            },
+          },
+        },
+        plugins: {
+          legend: { display: true },
         }
       }
     };
@@ -278,11 +296,36 @@ export class StationComponent implements OnInit, OnDestroy {
     console.log(this.chartDetail);
 
     if(this.chartDetail !== null){
-      this.chartTest.datasets[0].data = [this.chartDetail.healty, this.chartDetail.moderate, this.chartDetail.unhealty];
+      if (this.selectedDataType == "AQI") {
+        this.chartTest.datasets[0].label = "AQI";
+
+        var listAqi = [];
+        var listLabel = [];
+        
+        this.chartDetail.aqi.forEach(element => {
+          listAqi.push(element.aqi);
+          listLabel.push(moment(element.ts).format('DD MMM YYYY HH:mm'));
+        });
+
+        this.chartTest.datasets[0].data = listAqi;
+        this.chartTest.labels = listLabel;
+      } else {
+        this.chartTest.datasets[0].label = "PM2.5";
+
+        var listAqi = [];
+        var listLabel = [];
+        
+        this.chartDetail.pm25.forEach(element => {
+          listAqi.push(element.pm25);
+          listLabel.push(moment(element.ts).format('DD MMM YYYY HH:mm'));
+        });
+
+        this.chartTest.datasets[0].data = listAqi;
+        this.chartTest.labels = listLabel;
+      }
     }
     else{
       this.chartTest.datasets[0].data = [Math.max(0),Math.max(0),Math.max(0)];
     }
-
   }
 }
