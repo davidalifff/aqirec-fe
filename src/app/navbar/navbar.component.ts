@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -8,11 +8,15 @@ import Swal from 'sweetalert2';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   activePage: any;
-
+  isLogin: boolean;
   constructor(private authService: AuthService, private router: Router) { }
 
+
+  ngOnInit(): void {
+      this.isLogin = localStorage.getItem('activeuser') !== null
+  }
   onMenuClick(event: any, path: any) {
     var before = window.location.pathname.split("/")[1];
     this.activePage = path;
@@ -38,7 +42,7 @@ export class NavbarComponent {
   }
 
   moveToStation(){
-    if (!this.authService.getIsAdmin()) {
+    if (!this.authService.isLoggedIn()) {
       Swal.fire({
         title: "Anda belum Login",
         text: "Silahkan Login terlebih dahulu",

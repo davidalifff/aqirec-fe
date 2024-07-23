@@ -139,8 +139,10 @@ export class StationComponent implements OnInit, OnDestroy {
     });
   }
 
+
+
   view(data: any) {
-    this.filterData(data.id, this.selectedDataType, this.selectedFilter);
+    this.filterData(data?.id, this.selectedDataType, this.selectedFilter);
     this.stationForm = data;
     data = this.idMap == null ? data : this.selectedStation;
     this.stationService.getById(data.id).subscribe((res: any) => {

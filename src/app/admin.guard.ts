@@ -12,7 +12,7 @@ export class AdminGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
-    if (this.authService.getIsAdmin()) { // Menggunakan method getIsAdmin dari AuthService
+    if (this.authService.isLoggedIn()) { // Menggunakan method getIsAdmin dari AuthService
       return true;
     } else {
       this.router.navigate(['/login']);
